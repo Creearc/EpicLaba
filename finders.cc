@@ -44,6 +44,7 @@ int myhash(string str)
 	return out % (n2); 
 }
 
+// Функция поиска по хешу
 float find_by_hash(string str, float prices[], string names[])
 {
 	int k = myhash(str) * 10;
@@ -100,8 +101,9 @@ void balance(int ind, int tree[][4])
 {
 	int temp;
 	int ind2;
-	int balance = tree_h(tree[ind][1], tree) - tree_h(tree[ind][2], tree);	
-	if(balance<-1)
+	int balance = tree_h(tree[ind][1], tree) - tree_h(tree[ind][2], tree);	// Вычисление баланса поддеревьев
+	// Для осуществления поворотов мы просто переназначаем связи между элементами
+	if(balance<-1) // Левый поворот
 	{
 		ind2 = tree[ind][2];
 		temp = tree[ind][0];
@@ -113,7 +115,7 @@ void balance(int ind, int tree[][4])
 		tree[ind2][1] = tree[ind][1];
 		tree[ind][1] = ind2;	
 	}
-	if(balance>1)
+	if(balance>1) // Правый поворот
 	{
 		ind2 = tree[ind][1];
 		temp = tree[ind][0];
@@ -170,6 +172,7 @@ void add_to_tree(int ind, int tree[][4])
 	tree[i][pos] = ind;
 	tree[ind][3] = i;
 	
+	// Балансировка каждого родителя добавленного элемента
 	while (i > 0)
 	{
 		i--;
@@ -341,23 +344,29 @@ int main() {
 
   }
   // Найдем число 67
+  printf("Searching for 67:\n");
   find_in_tree(67, tree);
   
   // Найдем число 567 которого изначально нет в дереве
+  printf("Searching for 567:\n");
   find_in_tree(567, tree);
   // Добавим число 567
   count++; // Увеличим количество элементов дерева
   tree[count - 1][0] = 567;
   add_to_tree(count - 1, tree);
+  printf("567 was added\n");
   // Найдем число 567
+  printf("Searching for 567:\n");
   find_in_tree(567, tree);
   
   // Удалим число 93
-  //count--;
+  printf("Deleting 93:\n");
+  count--;
   delet_from_tree(93, tree);
   
-  
-  for(int i=0; i<count; i++)
+  // Поиск чисел от 0 до 100 в дереве
+  // Элементы 93 и 100 не будут найдены, так как их нет в дереве
+  for(int i=0; i<100; i++)
   {
 	  find_in_tree(i, tree);
   }
